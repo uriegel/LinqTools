@@ -101,18 +101,20 @@ public static class GenericNullable
         if (opt.HasValue)
             action(opt.Value);
     }
+}
 
+public static partial class Core
+{
     public static T? ExceptionToNull<T>(Func<T> func)
-        where T: notnull
+        where T : notnull
     {
-        try 
+        try
         {
             return func();
         }
-        catch 
+        catch
         {
             return default(T?);
         }
     }
-
 }
