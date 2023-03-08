@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+  <targetFramework>netstandard2.0</targetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<Version>0.0.1-alpha.1</Version>
+	<FileVersion>0.0.1.0</FileVersion>
+	<AssemblyVersion>0.0.1.0</AssemblyVersion>
+	<Authors>Uwe Riegel</Authors>
+	<Company>Uwe Riegel</Company>		
+	<Description>Tools and extensions for LINQ</Description>
+	<PackageLicenseUrl></PackageLicenseUrl>
+	<PackageProjectUrl>https://github.com/uriegel/LinqTools</PackageProjectUrl>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>		    
+  <LangVersion>10</LangVersion>
+</PropertyGroup>
+
+<ItemGroup>
+	<None Include="..\README.md" Pack="true" PackagePath="\" />
+	<None Include="..\LICENSE">
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
+	</None>
+</ItemGroup>
+
+</Project>
