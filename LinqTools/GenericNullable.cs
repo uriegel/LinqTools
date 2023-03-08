@@ -2,6 +2,12 @@ namespace LinqTools;
 
 public static class GenericNullable
 {
+    public static T? AsNullable<T>(T t)
+        where T : class
+        => t != null
+            ? t
+            : null;
+
     public static R? Select<T, R>(this T? opt, Func<T, R> func) 
         where T : class
         => opt != null
@@ -70,12 +76,17 @@ public static class GenericNullable
             ? t.Value
             : defaultValue;
 
-    // public static bool Where<T>(this T? opt, Action<T> action)
-    //     where T : struct
-    // {
-    //     if (opt.HasValue)
-    //         action(opt.Value);
-    // }
+    public static T? Where<T>(this T? opt, Func<T, bool> predicate)
+        where T : class
+        => opt != null && predicate(opt)
+            ? opt
+            : null;
+
+    public static T? Where<T>(this T? opt, Func<T, bool> predicate)
+        where T : struct
+        => opt.HasValue && predicate(opt.Value)
+            ? opt
+            : null;
 
     public static void ForEach<T>(this T? opt, Action<T> action)
         where T : class
@@ -90,4 +101,18 @@ public static class GenericNullable
         if (opt.HasValue)
             action(opt.Value);
     }
+
+    public static T? ExceptionToNull<T>(Func<T> func)
+        where T: notnull
+    {
+        try 
+        {
+            return func();
+        }
+        catch 
+        {
+            return default(T?);
+        }
+    }
+
 }

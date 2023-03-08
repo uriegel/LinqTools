@@ -25,6 +25,7 @@ var res = (from n in teststr
 
 var res2 = (from n in teststr
            from m in getFirstStringChecked(n) 
+           where m.Length == 9
            from p in ThrowIfNull(m)
            select p).GetOrDefault("Nichts");
 
@@ -33,4 +34,6 @@ var res3 = (from n in teststr
            from p in ThrowIfNull(m)
            select GetNullableInt(p)).GetOrDefault(99);
 
-
+var res4 = (from n in teststr
+          where n.Length > 10
+          select getFirstString(n)).GetOrDefault("Nichts");
