@@ -118,3 +118,5 @@ public static partial class Core
         }
     }
 }
+
+// TODO xml doku in nuget
