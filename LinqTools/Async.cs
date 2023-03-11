@@ -6,7 +6,7 @@ namespace LinqTools.Async
     public static class AsyncTask
     {
         /// <summary>
-        /// To use an awaitable function with LINQ Query Syntax (from n in <awaitable>)
+        /// To use an awaitable function with LINQ Query Syntax (from n in (awaitable))
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -17,7 +17,7 @@ namespace LinqTools.Async
             => func(await task);
 
         /// <summary>
-        /// To use an awaitable function with LINQ Query Syntax (from n in <awaitable>  from n in AwaitableFunc(m)).
+        /// To use an awaitable function with LINQ Query Syntax (from n in (awaitable)  from n in AwaitableFunc(m)).
         /// The result is flattened
         /// </summary>
         /// <typeparam name="T"></typeparam>

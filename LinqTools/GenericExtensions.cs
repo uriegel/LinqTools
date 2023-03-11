@@ -3,7 +3,7 @@ namespace LinqTools;
 public static class GenericExtensions
 {
     /// <summary>
-    /// This SideEffect is useful if you want to appply some side effect to an value in a LINQ expression,
+    /// This SideEffect is useful if you want to apply some side effect to a value in a LINQ expression,
     /// such as logging the value. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -17,7 +17,7 @@ public static class GenericExtensions
     }
 
     /// <summary>
-    /// This SideEffect is useful if you want to appply some side effect to an value in a LINQ expression,
+    /// This SideEffect is useful if you want to apply some side effect to a value in a LINQ expression,
     /// such as logging the value. The value is waitable and will be awaited to apply the side effect
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -32,7 +32,7 @@ public static class GenericExtensions
     }
 
     /// <summary>
-    /// This SideEffect is useful if you want to appply some awaitable side effect to an value in a LINQ expression,
+    /// This SideEffect is useful if you want to apply some awaitable side effect to a value in a LINQ expression,
     /// such as logging the value. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -46,7 +46,7 @@ public static class GenericExtensions
     }
 
     /// <summary>
-    /// If you need to an awaitale value, and you have only a normal value, you can create an 
+    /// If you need to an awaitable value, and you have only a normal value, you can create an 
     /// Async monad with this extension function
     /// </summary>
     /// <typeparam name="T"></typeparam>
