@@ -188,7 +188,3 @@ public static partial class Core
     }
 }
 
-// TODO Test ConcatEnumerables
-// TODO Result
-// TODO runCmdAsync
-// TODO MapExceptionAsync

@@ -355,6 +355,42 @@ public static class ResultExtensions
         );
 
     /// <summary>
+    /// Transforms the Exception type to another rype
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TE"></typeparam>
+    /// <typeparam name="TER"></typeparam>
+    /// <param name="result"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static Result<T, TER> SelectException<T, TE, TER>(this Result<T, TE> result, Func<TE, TER> selector)
+        where T : notnull
+        where TE : notnull
+        where TER : notnull
+        => result.Match(
+            t => t,
+            e => new Result<T, TER>(selector(e))
+        );
+    
+    /// <summary>
+    /// Transforms the Exception type to another rype
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TE"></typeparam>
+    /// <typeparam name="TER"></typeparam>
+    /// <param name="result"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static Task<Result<T, TER>> SelectException<T, TE, TER>(this Task<Result<T, TE>> result, Func<TE, TER> selector)
+        where T : notnull
+        where TE : notnull
+        where TER : notnull
+        => result.MatchAsync(
+            t => t,
+            e => new Result<T, TER>(selector(e))
+        );
+
+    /// <summary>
     /// Gets the Ok value, or get a default value instead the Error
     /// </summary>
     /// <typeparam name="T"></typeparam>
