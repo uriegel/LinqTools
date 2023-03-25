@@ -52,12 +52,6 @@ namespace LinqTools
         /// <param name="t"></param>
         /// <returns></returns>
         public static Task<T> Async<T>(T t) => Task.FromResult(t);
-
-        // public static Task RunAsync(Action action)
-        // {
-        //     action();
-        //     return Task.FromResult(Unit.Value);
-        // }
     }
 }
 

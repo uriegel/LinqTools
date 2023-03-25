@@ -24,6 +24,7 @@ public static class GenericNullable
     /// <returns></returns>
     public static R? Select<T, R>(this T? opt, Func<T, R> func) 
         where T : class
+        where R : class
         => opt != null
         ? func(opt)
         : default(R?);
@@ -38,6 +39,7 @@ public static class GenericNullable
     /// <returns></returns>
     public static R? Select<T, R>(this T? opt, Func<T, R> func) 
         where T : struct
+        where R : class
         => opt.HasValue
         ? func(opt.Value)
         : default(R?);
@@ -76,6 +78,7 @@ public static class GenericNullable
     public static RR? SelectMany<T, R, RR>(this T? t, Func<T, R?> bind, Func<T, R, RR> project)
         where R : struct
         where T : class
+        where RR : class
         => t != null
             ? bind(t) switch 
             {
@@ -97,6 +100,7 @@ public static class GenericNullable
     public static RR? SelectMany<T, R, RR>(this T? t, Func<T, R?> bind, Func<T, R, RR> project)
         where R : class
         where T : struct
+        where RR : class
         => t.HasValue
             ? bind(t.Value) switch 
             {
@@ -118,6 +122,7 @@ public static class GenericNullable
     public static RR? SelectMany<T, R, RR>(this T? t, Func<T, R?> bind, Func<T, R, RR> project)
         where R : struct
         where T : struct
+        where RR : class
         => t.HasValue
             ? bind(t.Value) switch 
             {

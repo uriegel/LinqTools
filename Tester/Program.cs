@@ -56,6 +56,24 @@ var test = from n in await Process.RunAsync("lsblk", "--bytes --output SIZE,NAME
                     .Skip(1)
                     .Select(n => CreateRootItem(n, positions))
                     .ToArray();
+
+var lastWriteTime = DateTime.Now;
+var dateTimeString1 = "";
+var dateTimeString2 = "Sat, 18 Mar 2023 10:43:32 GMT";
+
+bool IsModified(string dateTimeString)
+    => (from n in dateTimeString
+                    .WhiteSpaceToNull()
+                    ?.FromString()
+                    .ToRef()
+        let r = lastWriteTime > n
+        select r.ToRef())
+            .GetOrDefault(true);
+
+var test3 = IsModified(dateTimeString1);
+var test4 = IsModified(dateTimeString2);
+
+
 var test2 = 0;
 
 RootItem CreateRootItem(string driveString, int[] positions)
@@ -86,3 +104,9 @@ record RootItem(
     bool IsMounted,
     string DriveType
 );
+
+static class Extensions
+{
+    public static DateTime FromString(this string timeString)
+        => Convert.ToDateTime(timeString);
+}

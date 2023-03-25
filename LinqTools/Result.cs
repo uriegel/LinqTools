@@ -442,7 +442,7 @@ public static partial class Core
         where TE : notnull
         => new(e);
 
-        public static Result<T, TE> Try<T, TE>(this Func<T> func, Func<Exception, TE> onException)
+    public static Result<T, TE> Try<T, TE>(this Func<T> func, Func<Exception, TE> onException)
         where T : notnull
         where TE : notnull
     {

@@ -38,11 +38,11 @@ static class Process
                 }
                     .SideEffect(p => p.Start())
                     .SideEffect(p => p.WaitForExitAsync());
-                var responseString =
-                    from n in await proc.StandardOutput.ReadToEndAsync()
-                    select n.WhiteSpaceToNull();
-                return responseString
-                    ?? Error<string, Exception>(new Exception((await proc.StandardError.ReadToEndAsync()).WhiteSpaceToNull(), proc.ExitCode));
+                return 
+                    (from n in await proc.StandardOutput.ReadToEndAsync()
+                    from m in n.WhiteSpaceToNull()
+                    select m)
+                        ?? Error<string, Exception>(new Exception((await proc.StandardError.ReadToEndAsync()).WhiteSpaceToNull(), proc.ExitCode));
             }
         , e => Error<string, Exception>(new Exception(e)));
 }
