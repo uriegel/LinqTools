@@ -442,7 +442,15 @@ public static partial class Core
         where TE : notnull
         => new(e);
 
-    public static Result<T, TE> Try<T, TE>(this Func<T> func, Func<Exception, TE> onException)
+    /// <summary>
+    /// Runs code and returns a Result containing the result, or if it throws an exception the exception as Error
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TE"></typeparam>
+    /// <param name="func"></param>
+    /// <param name="onException"></param>
+    /// <returns></returns>
+    public static Result<T, TE> Try<T, TE>(Func<T> func, Func<Exception, TE> onException)
         where T : notnull
         where TE : notnull
     {
@@ -457,7 +465,28 @@ public static partial class Core
     }
 
     /// <summary>
-    /// Runs code and returning a Result containing the result or, if it throws an exception the exception as Error
+    /// Runs code and returns 'Nothing', or if it throws an exception the exception as Error
+    /// </summary>
+    /// <typeparam name="TE"></typeparam>
+    /// <param name="action"></param>
+    /// <param name="onException"></param>
+    /// <returns></returns>
+    public static Result<Nothing, TE> Try<TE>(Action action, Func<Exception, TE> onException)
+        where TE : notnull
+    {
+        try
+        {
+            action();
+            return 0.ToNothing();
+        }
+        catch (Exception ex)
+        {
+            return Core.Error<Nothing, TE>(onException(ex));
+        }
+    }
+
+    /// <summary>
+    /// Runs code and returns a Result containing the result, or if it throws an exception the exception as Error
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TE"></typeparam>
@@ -475,6 +504,27 @@ public static partial class Core
         catch (Exception ex)
         {
             return Core.Error<T, TE>(onException(ex));
+        }
+    }
+
+    /// <summary>
+    /// Runs async code and returns 'Nothing' containing the result, or if it throws an exception the exception as Error
+    /// </summary>
+    /// <typeparam name="TE"></typeparam>
+    /// <param name="func"></param>
+    /// <param name="onException"></param>
+    /// <returns></returns>
+    public static async Task<Result<Nothing, TE>> TryAsync<TE>(Func<Task> func, Func<Exception, TE> onException)
+        where TE : notnull
+    {
+        try
+        {
+            await func();
+            return 0.ToNothing();
+        }
+        catch (Exception ex)
+        {
+            return Core.Error<Nothing, TE>(onException(ex));
         }
     }
 }

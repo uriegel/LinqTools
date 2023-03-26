@@ -184,6 +184,19 @@ public static class GenericNullable
             : null;
 
     /// <summary>
+    /// If a value is null, call function 'elseWith' and take that value, otherwise take the first value
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="t"></param>
+    /// <param name="elseWith"></param>
+    /// <returns></returns>
+    public static T? OrElseWith<T>(this T? t, Func<T?> elseWith)
+        where T : class
+        => t != null
+            ? t
+            : elseWith();
+
+    /// <summary>
     /// Iterate through an nullable, that is call action only if value is != null
     /// </summary>
     /// <typeparam name="T"></typeparam>
