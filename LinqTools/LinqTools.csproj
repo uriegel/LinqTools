@@ -4,9 +4,9 @@
   <targetFramework>net6.0</targetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	<Version>3.1.0</Version>
-	<FileVersion>3.1.0.0</FileVersion>
-	<AssemblyVersion>3.1.0.0</AssemblyVersion>
+	<Version>3.2.0</Version>
+	<FileVersion>3.2.0.0</FileVersion>
+	<AssemblyVersion>3.2.0.0</AssemblyVersion>
 	<Authors>Uwe Riegel</Authors>
 	<Company>Uwe Riegel</Company>		
 	<Description>Tools and extensions for LINQ, for example nullable as Monad</Description>

@@ -1,3 +1,5 @@
+namespace LinqTools;
+
 public static class NullableExtensions
 {
     /// <summary>
