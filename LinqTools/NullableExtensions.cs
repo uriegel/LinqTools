@@ -52,6 +52,32 @@ public static class NullableExtensions
         => t != null
             ? t
             : elseWith();
+
+    /// <summary>
+    /// Iterate through an nullable, that is call action only if value is != null
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="opt"></param>
+    /// <param name="action"></param>
+    public static void IfNotNull<T>(this T? opt, Action<T> action)
+        where T : class
+    {
+        if (opt != null)
+            action(opt);
+    }
+
+    /// <summary>
+    /// Iterate through an nullable, that is call action only if value is != null
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="opt"></param>
+    /// <param name="action"></param>
+    public static void IfNotNull<T>(this T? opt, Action<T> action)
+        where T : struct
+    {
+        if (opt.HasValue)
+            action(opt.Value);
+    }
 }
 
 public static partial class Core
