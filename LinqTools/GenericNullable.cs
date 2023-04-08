@@ -1,4 +1,4 @@
-namespace LinqTools;
+namespace LinqTools.Nullable;
 
 public static class GenericNullable
 {

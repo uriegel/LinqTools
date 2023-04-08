@@ -1,4 +1,5 @@
 ﻿using LinqTools;
+using LinqTools.Nullable;
 
 String? teststr = "Uwe Riegel";
 
@@ -38,25 +39,6 @@ var res4 = (from n in teststr
           where n.Length > 10
           select getFirstString(n)).GetOrDefault("Nichts");
 
-var result = await Process.RunAsync("lsblkd", "--bytes --output SIZE,NAME,LABEL,MOUNTPOINT,FSTYPE");
-result = await Process.RunAsync("lsblk", "--nothing -bytes -output SIZE,NAME,LABEL,MOUNTPOINT,FSTYPE");
-result = await Process.RunAsync("lsblk", "--bytes --output SIZE,NAME,LABEL,MOUNTPOINT,FSTYPE");
-var test = from n in await Process.RunAsync("lsblk", "--bytes --output SIZE,NAME,LABEL,MOUNTPOINT,FSTYPE")
-           let driveLines = n.Split('\n', StringSplitOptions.RemoveEmptyEntries)
-           let titles = driveLines[0]
-           let positions = new[]
-           {
-               0,
-               titles.IndexOf("NAME"),
-               titles.IndexOf("LABEL"),
-               titles.IndexOf("MOUNT"),
-               titles.IndexOf("FSTYPE")
-           }
-           select driveLines
-                    .Skip(1)
-                    .Select(n => CreateRootItem(n, positions))
-                    .ToArray();
-
 var lastWriteTime = DateTime.Now;
 var dateTimeString1 = "";
 var dateTimeString2 = "Sat, 18 Mar 2023 10:43:32 GMT";
@@ -72,9 +54,6 @@ bool IsModified(string dateTimeString)
 
 var test3 = IsModified(dateTimeString1);
 var test4 = IsModified(dateTimeString2);
-
-
-var test2 = 0;
 
 RootItem CreateRootItem(string driveString, int[] positions)
 {
@@ -109,4 +88,12 @@ static class Extensions
 {
     public static DateTime FromString(this string timeString)
         => Convert.ToDateTime(timeString);
+
+    public static string? WhiteSpaceToNull(this string? str)
+        => string.IsNullOrWhiteSpace(str) ? null : str;
+
+    public static long? ParseLong(this string? str)
+        => long.TryParse(str, out var val)
+            ? val
+            : null;
 }
