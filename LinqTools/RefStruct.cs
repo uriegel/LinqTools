@@ -1,5 +1,6 @@
 namespace LinqTools;
 
+[Obsolete("Use Option<T>", true)]
 public class RefStruct<T>
     where T : struct
 {
@@ -14,6 +15,7 @@ public class RefStruct<T>
     readonly T t;
 }
 
+[Obsolete("Use Option<T>", true)]
 public static class RefStructExtensions
 {
     public static T GetOrDefault<T>(this RefStruct<T>? value, T defaultValue)

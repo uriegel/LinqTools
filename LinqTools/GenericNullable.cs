@@ -1,5 +1,6 @@
 namespace LinqTools.Nullable;
 
+[Obsolete("Use Option<T>", true)]
 public static class GenericNullable
 {
     /// <summary>

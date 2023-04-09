@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\LinqTools\LinqTools.csproj" />
+    <ProjectReference Include="..\..\LinqTools\LinqTools.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

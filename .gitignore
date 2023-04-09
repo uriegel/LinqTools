@@ -1,4 +1,6 @@
 LinqTools/bin
 LinqTools/obj
-Tester/bin
-Tester/obj
+Tests/Tester/bin
+Tests/Tester/obj
+Tests/AsyncEnumerableTester/bin
+Tests/AsyncEnumerableTester/obj

@@ -8,7 +8,9 @@ Extensions for LINQ
 * Extension functions to make Async Function a Monad/Functor
 * Ohter Tools usable for fluent syntax
 
-## Nullable Extensions
+## Nullable Extensions (deprecated)
+
+README is going to be changed to fit the new Option<T> type instead of Nullable extensions
 
 There are Extension Functions for nullables to make them Monads/Functors:
 * Select

@@ -1,15 +1,16 @@
 ﻿using LinqTools;
-using LinqTools.Nullable;
 
-String? teststr = "Uwe Riegel";
+using static LinqTools.Core;
 
-string getFirstString(string test)
+var teststr = "Uwe Riegel".FromNullable();
+
+string getSubstring5(string test)
     => test.Substring(5);
 
-string? getFirstStringChecked(string test)
+Option<string> getSubstring5Checked(string test)
     => test.Length > 50
         ? test.Substring(5)
-        : null;
+        : None;
 
 string ThrowIfNull(string nix)        
 {
@@ -18,42 +19,67 @@ string ThrowIfNull(string nix)
     return nix;
 }
 
-int? GetNullableInt(string a)
+Option<int> GetMaybeInt(string a)
     => 24;
 
 var res = (from n in teststr
-          select getFirstString(n)).GetOrDefault("Nichts");
+            select getSubstring5(n))
+                .GetOrDefault("Nichts");
 
 var res2 = (from n in teststr
-           from m in getFirstStringChecked(n) 
-           where m.Length == 9
-           from p in ThrowIfNull(m)
-           select p).GetOrDefault("Nichts");
+            from m in getSubstring5Checked(n)
+            where m.Length == 9
+            let p = ThrowIfNull(m)
+            select p)
+                .GetOrDefault("Nichts");
 
 var res3 = (from n in teststr
-           from m in getFirstStringChecked(n) 
-           from p in ThrowIfNull(m)
-           select GetNullableInt(p)).GetOrDefault(99);
+           from m in getSubstring5Checked(n) 
+           from p in GetMaybeInt(m)
+           select p)
+                .GetOrDefault(99);
 
 var res4 = (from n in teststr
-          where n.Length > 10
-          select getFirstString(n)).GetOrDefault("Nichts");
+            where n.Length > 10
+            select getSubstring5(n))   
+                .GetOrDefault("Nichts");
 
 var lastWriteTime = DateTime.Now;
 var dateTimeString1 = "";
 var dateTimeString2 = "Sat, 18 Mar 2023 10:43:32 GMT";
 
+
+var ares = (await (from n in teststr
+                        .ToAsyncOption()
+                    select getSubstring5(n))
+                        .ToOption())
+            .GetOrDefault("Nichts");
+
+// var ares2 = ((from n in teststr
+//                         .ToAsyncOption()
+//              select getSubstring5Async(n))
+//                     .ToOption())
+//                     //.GetOrDefault("Nichts");
+
+var a = 9;
+
+async Task<string> getSubstring5Async(string test)
+{
+    await Task.Delay(1000);
+    return getSubstring5(test);
+}
+
+
 bool IsModified(string dateTimeString)
     => (from n in dateTimeString
-                    .WhiteSpaceToNull()
-                    ?.FromString()
-                    .ToRef()
-        let r = lastWriteTime > n
-        select r.ToRef())
+                    .WhiteSpaceToNone()
+        let m = n.FromString()
+        select lastWriteTime > m)
             .GetOrDefault(true);
 
 var test3 = IsModified(dateTimeString1);
 var test4 = IsModified(dateTimeString2);
+var t = 9;
 
 RootItem CreateRootItem(string driveString, int[] positions)
 {
@@ -90,7 +116,14 @@ static class Extensions
         => Convert.ToDateTime(timeString);
 
     public static string? WhiteSpaceToNull(this string? str)
-        => string.IsNullOrWhiteSpace(str) ? null : str;
+        => !string.IsNullOrWhiteSpace(str) 
+            ? str
+            : null;
+
+    public static Option<string> WhiteSpaceToNone(this string? str)
+        => !string.IsNullOrWhiteSpace(str)
+            ? str
+            : None;
 
     public static long? ParseLong(this string? str)
         => long.TryParse(str, out var val)

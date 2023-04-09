@@ -5,11 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "AsyncEnumerableTester",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Tests/AsyncEnumerableTester/bin/Debug/net6.0/AsyncEnumerableTester.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }, {
             "name": ".NET Core Launch",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Tester/bin/Debug/net6.0/Tester.dll",
+            "program": "${workspaceFolder}/Tests/Tester/bin/Debug/net6.0/Tester.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
