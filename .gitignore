@@ -4,3 +4,5 @@ Tests/Tester/bin
 Tests/Tester/obj
 Tests/AsyncEnumerableTester/bin
 Tests/AsyncEnumerableTester/obj
+Tests/AsyncOptionTester/bin
+Tests/AsyncOptionTester/obj

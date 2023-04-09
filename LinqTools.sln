@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tests\Tester\Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncEnumerableTester", "Tests\AsyncEnumerableTester\AsyncEnumerableTester.csproj", "{93C91FA6-CFF4-4409-8402-ABA454F323A0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E21D1379-8158-46EA-9EC9-E3FCC67825AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncOptionTester", "Tests\AsyncOptionTester\AsyncOptionTester.csproj", "{E0D30E36-8BDE-4511-9246-75264EAB02CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{93C91FA6-CFF4-4409-8402-ABA454F323A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93C91FA6-CFF4-4409-8402-ABA454F323A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93C91FA6-CFF4-4409-8402-ABA454F323A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0D30E36-8BDE-4511-9246-75264EAB02CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0D30E36-8BDE-4511-9246-75264EAB02CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0D30E36-8BDE-4511-9246-75264EAB02CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0D30E36-8BDE-4511-9246-75264EAB02CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0D30E36-8BDE-4511-9246-75264EAB02CD} = {E21D1379-8158-46EA-9EC9-E3FCC67825AE}
 	EndGlobalSection
 EndGlobal

@@ -15,6 +15,16 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         }, {
+            "name": "AsyncOptionTester",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Tests/AsyncOptionTester/bin/Debug/net6.0/AsyncOptionTester.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }, {
             "name": ".NET Core Launch",
             "type": "coreclr",
             "request": "launch",

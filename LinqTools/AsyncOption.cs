@@ -93,27 +93,30 @@ public static class AsyncOptionExtensions
         where T : notnull
         => new AsyncOption<T>(option);
 
-    public static AsyncOption<R> Select<T, R>(this AsyncOption<T> opt, Func<T, R> func)
-        where T : notnull
-        where R : notnull
+    public static AsyncOption<TResult> Select<TSource, TResult>(this AsyncOption<TSource> opt, Func<TSource, TResult> func)
+        where TSource : notnull
+        where TResult : notnull
     {
-        var affe =
+        var result =
             from n in opt.optionTask
             select n.Select(func);
-        return new AsyncOption<R>(affe);
+        return new AsyncOption<TResult>(result);
     }
 
-    public static AsyncOption<R> SelectAsync<T, R>(this AsyncOption<T> opt, Func<T, Task<R>> func)
-        where T : notnull
-        where R : notnull
+    public static AsyncOption<TResult> SelectAwait<TSource, TResult>(this AsyncOption<TSource> source, Func<TSource, Task<TResult>> selector)
+        where TSource : notnull
+        where TResult : notnull
+        => new AsyncOption<TResult>(InternalSelectAwait<TSource, TResult>(source, selector));
+
+    static async Task<Option<TResult>> InternalSelectAwait<TSource, TResult>(AsyncOption<TSource> source, Func<TSource, Task<TResult>> selector)
+        where TSource : notnull
+        where TResult : notnull
     {
-    //     var affe =
-    //         from n in opt.optionTask
-    //         from m in n.Select(func)
-    //         select m;
-        return new AsyncOption<R>(None);
+        var option = await source.optionTask;
+        return option.IsSome
+            ? await selector(option.ThrowOnNone())
+            : (Option<TResult>)None;
     }
-
 }
 //     // public static Option<R> Map<T, R>(this Option<T> opt, Func<T, R> func)
 //     //     where R : notnull
