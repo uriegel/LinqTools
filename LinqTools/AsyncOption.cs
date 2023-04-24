@@ -91,22 +91,23 @@ public static class AsyncOptionExtensions
 {
     public static AsyncOption<T> ToAsyncOption<T>(this Option<T> option)
         where T : notnull
-        => new AsyncOption<T>(option);
+        => new(option);
 
     public static AsyncOption<TResult> Select<TSource, TResult>(this AsyncOption<TSource> opt, Func<TSource, TResult> func)
         where TSource : notnull
         where TResult : notnull
-    {
-        var result =
-            from n in opt.optionTask
-            select n.Select(func);
-        return new AsyncOption<TResult>(result);
-    }
+    => new(from n in opt.optionTask
+           select n.Select(func));
 
     public static AsyncOption<TResult> SelectAwait<TSource, TResult>(this AsyncOption<TSource> source, Func<TSource, Task<TResult>> selector)
         where TSource : notnull
         where TResult : notnull
-        => new AsyncOption<TResult>(InternalSelectAwait<TSource, TResult>(source, selector));
+        => new (InternalSelectAwait<TSource, TResult>(source, selector));
+
+    public static AsyncOption<T> Where<T>(this AsyncOption<T> opt, Func<T, bool> predicate)
+        where T: notnull
+    => new(from n in opt.optionTask
+           select n.Where(predicate));
 
     static async Task<Option<TResult>> InternalSelectAwait<TSource, TResult>(AsyncOption<TSource> source, Func<TSource, Task<TResult>> selector)
         where TSource : notnull
