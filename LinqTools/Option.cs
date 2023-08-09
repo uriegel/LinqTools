@@ -132,6 +132,17 @@ public static T GetOrDefault<T>(this Option<T> option, Func<T> defaultValue)
     //     where T : notnull
     //     => opt.Map(action);
 
+    public static Option<R> SelectMany<T, R>(this Option<T> opt, Func<T, Option<R>> func)
+        where R : notnull
+        where T : notnull
+        => opt.Match(
+            t => func(t).Match(
+                Some,
+                ()   => None
+            ),
+            ()       => None
+        );
+
     public static Option<RR> SelectMany<T, R, RR>(this Option<T> opt, Func<T, Option<R>> bind, Func<T, R, RR> project)
         where RR : notnull
         where R : notnull
