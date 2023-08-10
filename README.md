@@ -8,11 +8,9 @@ Extensions for LINQ
 * Extension functions to make Async Function a Monad/Functor
 * Ohter Tools usable for fluent syntax
 
-## Nullable Extensions (deprecated)
+## Option< T >
 
-README is going to be changed to fit the new Option<T> type instead of Nullable extensions
-
-There are Extension Functions for nullables to make them Monads/Functors:
+There are Extension Functions for Option to make them Monads/Functors:
 * Select
 * SelectMany
 
@@ -21,7 +19,7 @@ If you are not sure, if an object is null although the compiler says no, you can
 static T? AsNullable<T>(this T t)
 
 ``` 
-With the extension functions you can work with nullables as if they were not nullables:
+With the extension functions you can work with Options as if they were the containing type:
 ``` 
 var res = (from n in teststr
            from m in GetFirstStringChecked(n) 
@@ -30,7 +28,7 @@ var res = (from n in teststr
            select p)
                 .GetOrDefault("Nothing");
 ``` 
-As soon as a function returns null, all further processing is skipped.
+As soon as a function returns None, all further processing is skipped.
 
 ## Result Monad/Functor
 

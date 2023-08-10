@@ -125,8 +125,8 @@ static class Extensions
             ? str
             : None;
 
-    public static long? ParseLong(this string? str)
+    public static Option<long> ParseLong(this string? str)
         => long.TryParse(str, out var val)
             ? val
-            : null;
+            : None;
 }
