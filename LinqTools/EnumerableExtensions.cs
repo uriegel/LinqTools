@@ -164,6 +164,18 @@ public static class IEnumerableExtensions
     /// <returns></returns>
     public static IEnumerable<T> Add<T>(this IEnumerable<T> enumerable, T t)
         => enumerable.Concat(new[] { t });
+
+    public static Option<T> FirstOrNone<T>(this IEnumerable<T> enumerable)
+        where T : notnull
+            => enumerable
+                .FirstOrDefault()
+                .FromNullable();
+
+    public static Option<T> FirstOrNone<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        where T : notnull
+            => enumerable
+                .FirstOrDefault(predicate)
+                .FromNullable();
 }
 
 public static partial class Core
