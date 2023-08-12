@@ -1,6 +1,6 @@
 namespace LinqTools;
 
-static class ChooseExtensions
+public static class ChooseExtensions
 {
     public static Option<TResult> Choose<TResult, T>(this T t, params SwitchType<T, TResult>[] switches)
         where TResult : notnull
