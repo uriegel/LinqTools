@@ -60,4 +60,17 @@ public static class GenericExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="_"></param>
     public static void ToVoid<T>(this T _) { }
+
+    /// <summary>
+    /// Take the result from one operation and use it on another
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="R"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="t"></param>
+    /// <param name="selector"></param>
+    /// <param name="resultSelector"></param>
+    /// <returns></returns>
+    public static TResult With<T, R, TResult>(this T t, Func<T, R> selector, Func<R, TResult> resultSelector)
+        => resultSelector(selector(t));
 }
