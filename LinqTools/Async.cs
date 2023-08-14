@@ -33,6 +33,19 @@ namespace LinqTools.Async
             var t = await task;
             return project(t, await bind(t));
         }
+
+        public static async Task<TResult> SelectMany<T, TResult>
+                (this Task<T> task, Func<T, Task<TResult>> bind)
+        {
+            var t = await task;
+            return await bind(t);
+        }
+
+        public static async Task<int> ToUnitTask(this Task t)
+        {
+            await t;
+            return 0;        
+        }
     }
 }
 
