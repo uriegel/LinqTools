@@ -280,6 +280,25 @@ public static class ResultExtensions
 
     
     /// <summary>
+    /// Transforms the OK value (if present) to Result containing another type.
+    /// </summary>
+    /// <typeparam name="T">Source type</typeparam>
+    /// <typeparam name="TE">Exception type</typeparam>
+    /// <typeparam name="TResult">Target Type</typeparam>
+    /// <param name="result"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static Result<TResult, TE> SelectMany<T, TE, TResult>(this Result<T, TE> result,
+            Func<T, Result<TResult, TE>> selector)
+        where T : notnull
+        where TE : notnull
+        where TResult : notnull
+        => result.Match(
+            t => selector(t),
+            e => new Result<TResult, TE>(e)
+        );
+
+    /// <summary>
     /// Transforms the OK value (if present) to Result containing another type. For use in a LINQ query 
     /// </summary>
     /// <typeparam name="T">Source type</typeparam>
@@ -402,6 +421,19 @@ public static class ResultExtensions
         where T : notnull
         where TE : notnull
         => result.Match(val => val, e => defaultValue);
+
+    /// <summary>
+    /// Gets the Ok value, or get a default value instead the Error
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TE"></typeparam>
+    /// <param name="result"></param>
+    /// <param name="getExceptionValue">Function retrieving result from exception value</param>
+    /// <returns></returns>
+    public static T Get<T, TE>(this Result<T, TE> result, Func<TE, T> getExceptionValue)
+        where T : notnull
+        where TE : notnull
+        => result.Match(val => val, getExceptionValue);
 
     /// <summary>
     /// Elevates a Result to a Task&lt;Result&gt; monad
