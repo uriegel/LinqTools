@@ -36,13 +36,48 @@ public static class GenericExtensions
     /// such as logging the value. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="text"></param>
+    /// <param name="t"></param>
     /// <param name="selector"></param>
     /// <returns></returns>
-    public static async Task<T> SideEffect<T>(this T text, Func<T, Task> selector)
+    public static async Task<T> SideEffect<T>(this T t, Func<T, Task> selector)
     {
-        await selector(text);
-        return text;
+        await selector(t);
+        return t;
+    }
+
+    /// <summary>
+    /// This SideEffect is useful if you want to apply some side effect to a value in a LINQ expression,
+    /// such as logging the value. The sideEffect is only processed if the condition is true
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="t"></param>
+    /// <param name="condition">Run the action if true</param>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public static T SideEffectIf<T>(this T t, bool condition, Action<T> action)
+    {
+        if (condition)
+            action(t);
+        return t;
+    }
+
+    /// <summary>
+    /// This SideEffect is useful if you want to apply some side effect to a value in a LINQ expression,
+    /// such as logging the value. The trueEffect is processed if the condition is true, otherwise falseAction
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="t"></param>
+    /// <param name="condition">Run the action if true</param>
+    /// <param name="trueAction"></param>
+    /// <param name="falseAction"></param>
+    /// <returns></returns>
+    public static T SideEffectChoose<T>(this T t, bool condition, Action<T> trueAction, Action<T> falseAction)
+    {
+        if (condition)
+            trueAction(t);
+        else
+            falseAction(t);
+        return t;
     }
 
     /// <summary>
