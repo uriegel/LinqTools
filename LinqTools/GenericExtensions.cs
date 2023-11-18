@@ -81,6 +81,41 @@ public static class GenericExtensions
     }
 
     /// <summary>
+    /// This SideEffect is useful if you want to apply some side effect to a value in a LINQ expression,
+    /// such as logging the value. The sideEffect is only processed if the condition is true
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="t"></param>
+    /// <param name="getCondition">Run the action if true</param>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public static T SideEffectIf<T>(this T t, Func<T, bool> getCondition, Action<T> action)
+    {
+        if (getCondition(t))
+            action(t);
+        return t;
+    }
+
+    /// <summary>
+    /// This SideEffect is useful if you want to apply some side effect to a value in a LINQ expression,
+    /// such as logging the value. The trueEffect is processed if the condition is true, otherwise falseAction
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="t"></param>
+    /// <param name="getCocondition">Run the action if true</param>
+    /// <param name="trueAction"></param>
+    /// <param name="falseAction"></param>
+    /// <returns></returns>
+    public static T SideEffectChoose<T>(this T t, Func<T, bool> getCocondition, Action<T> trueAction, Action<T> falseAction)
+    {
+        if (getCocondition(t))
+            trueAction(t);
+        else
+            falseAction(t);
+        return t;
+    }
+
+    /// <summary>
     /// If you need to an awaitable value, and you have only a normal value, you can create an 
     /// Async monad with this extension function
     /// </summary>
