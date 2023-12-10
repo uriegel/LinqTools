@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 <PropertyGroup>
-  <targetFramework>net6.0</targetFramework>
+  <targetFramework>net8.0</targetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	<Version>5.5.0</Version>
-	<FileVersion>5.5.0.0</FileVersion>
-	<AssemblyVersion>5.5.0.0</AssemblyVersion>
+	<Version>6.0.0</Version>
+	<FileVersion>6.0.0.0</FileVersion>
+	<AssemblyVersion>6.0.0.0</AssemblyVersion>
 	<Authors>Uwe Riegel</Authors>
 	<Company>Uwe Riegel</Company>		
 	<Description>Tools and extensions for LINQ, for example nullable as Monad</Description>
@@ -15,7 +15,7 @@
 	<PackageProjectUrl>https://github.com/uriegel/LinqTools</PackageProjectUrl>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	<PackageReleaseNotes>Simple SelectMany for Result, functional if</PackageReleaseNotes>
+	<PackageReleaseNotes>.NET 8</PackageReleaseNotes>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>		    
 	<NoWarn>CS1591</NoWarn>      
