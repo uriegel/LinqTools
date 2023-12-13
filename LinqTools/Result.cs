@@ -13,20 +13,22 @@ public readonly struct Result<T, TE>
 {
     internal Result(T value)
     {
-        ValueSet = true;
+        IsOK = true;
         OkValue = value;
         EValue = default;
     }
 
     internal Result(TE value)
     {
-        EValue = value;
-        ValueSet = false;
+        IsOK = false;
         OkValue = default;
+        EValue = value;
     }
 
     public static implicit operator Result<T, TE>(T value)
         => Ok<T, TE>(value);
+
+    public bool IsOK { get; }  
 
     /// <summary>
     /// Pattern matching for Result 
@@ -36,7 +38,7 @@ public readonly struct Result<T, TE>
     /// <param name="failFunc"></param>
     /// <returns></returns>
     public TResult Match<TResult>(Func<T, TResult> successFunc, Func<TE, TResult> failFunc)
-        => ValueSet
+        => IsOK
         ? successFunc(OkValue!)
         : failFunc(EValue!);
 
@@ -48,7 +50,7 @@ public readonly struct Result<T, TE>
     /// <param name="failFunc"></param>
     /// <returns></returns>
     public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> successFunc, Func<TE, TResult> failFunc)
-        => ValueSet
+        => IsOK
         ? await successFunc(OkValue!)
         : failFunc(EValue!);
 
@@ -60,7 +62,7 @@ public readonly struct Result<T, TE>
     /// <param name="failFunc"></param>
     /// <returns></returns>
     public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> successFunc, Func<TE, Task<TResult>> failFunc)
-        => ValueSet
+        => IsOK
         ? await successFunc(OkValue!)
         : await failFunc(EValue!);
 
@@ -71,7 +73,7 @@ public readonly struct Result<T, TE>
     /// <param name="failAction"></param>
     public void Match(Action<T> successAction, Action<TE> failAction)
     {
-        if (ValueSet)
+        if (IsOK)
             successAction(OkValue!);
         else
             failAction(EValue!);
@@ -81,7 +83,7 @@ public readonly struct Result<T, TE>
         Func<T, TResult> successFunc, Func<TE, TResult> failFunc)
     {
         var awaitedsResult = await result;
-        if (awaitedsResult.ValueSet)
+        if (awaitedsResult.IsOK)
             return successFunc(awaitedsResult.OkValue!);
         else
             return failFunc(awaitedsResult.EValue!);
@@ -91,7 +93,7 @@ public readonly struct Result<T, TE>
         Func<T, Task<TResult>> successFunc, Func<TE, TResult> failFunc)
     {
         var awaitedsResult = await result;
-        if (awaitedsResult.ValueSet)
+        if (awaitedsResult.IsOK)
             return await successFunc(awaitedsResult.OkValue!);
         else
             return failFunc(awaitedsResult.EValue!);
@@ -101,7 +103,7 @@ public readonly struct Result<T, TE>
         Func<T, Task<TResult>> successFunc, Func<TE, Task<TResult>> failFunc)
     {
         var awaitedsResult = await result;
-        if (awaitedsResult.ValueSet)
+        if (awaitedsResult.IsOK)
             return await successFunc(awaitedsResult.OkValue!);
         else
             return await failFunc(awaitedsResult.EValue!);
@@ -109,7 +111,6 @@ public readonly struct Result<T, TE>
 
     T? OkValue { get; }
     TE? EValue { get; }
-    bool ValueSet { get; }
 }
 
 public static class ResultExtensions
