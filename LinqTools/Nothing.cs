@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+
 namespace LinqTools;
 
 /// <summary>
@@ -14,9 +16,7 @@ public static class NothingExtensions
     /// <param name="_"></param>
     /// <returns></returns>
     public static Nothing ToNothing<T>(this T _)
-        => empty;
-
-    static Nothing empty = new Nothing();
+        => Core.nothing;
 }
 
 public static partial class Core
@@ -42,4 +42,6 @@ public static partial class Core
         await asyncAction();
         return 0.ToNothing();
     }
+
+    public static Nothing nothing { get; } = new();
 }

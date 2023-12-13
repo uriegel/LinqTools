@@ -4,12 +4,14 @@ using static LinqTools.Core;
 
 var teststr = "Uwe Riegel".FromNullable();
 
+Result<Nothing, Exception> nix = nothing;
+
 string getSubstring5(string test)
-    => test.Substring(5);
+    => test[5..];
 
 Option<string> getSubstring5Checked(string test)
     => test.Length > 50
-        ? test.Substring(5)
+        ? test[5..]
         : None;
 
 string ThrowIfNull(string nix)        
