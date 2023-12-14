@@ -1,5 +1,6 @@
 namespace LinqTools;
 
+using System.Text.Json.Serialization;
 using static Core;
 
 /// <summary>
@@ -14,21 +15,22 @@ public readonly struct Result<T, TE>
     internal Result(T value)
     {
         IsOK = true;
-        OkValue = value;
-        EValue = default;
+        Ok = value;
+        Error = default;
     }
 
     internal Result(TE value)
     {
         IsOK = false;
-        OkValue = default;
-        EValue = value;
+        Ok = default;
+        Error = value;
     }
 
     public static implicit operator Result<T, TE>(T value)
         => Ok<T, TE>(value);
 
-    public bool IsOK { get; }  
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool IsOK { get; init; }
 
     /// <summary>
     /// Pattern matching for Result 
@@ -39,8 +41,8 @@ public readonly struct Result<T, TE>
     /// <returns></returns>
     public TResult Match<TResult>(Func<T, TResult> successFunc, Func<TE, TResult> failFunc)
         => IsOK
-        ? successFunc(OkValue!)
-        : failFunc(EValue!);
+        ? successFunc(Ok!)
+        : failFunc(Error!);
 
     /// <summary>
     /// Pattern matching for Result 
@@ -51,8 +53,8 @@ public readonly struct Result<T, TE>
     /// <returns></returns>
     public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> successFunc, Func<TE, TResult> failFunc)
         => IsOK
-        ? await successFunc(OkValue!)
-        : failFunc(EValue!);
+        ? await successFunc(Ok!)
+        : failFunc(Error!);
 
     /// <summary>
     /// Pattern matching for Result 
@@ -63,8 +65,8 @@ public readonly struct Result<T, TE>
     /// <returns></returns>
     public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> successFunc, Func<TE, Task<TResult>> failFunc)
         => IsOK
-        ? await successFunc(OkValue!)
-        : await failFunc(EValue!);
+        ? await successFunc(Ok!)
+        : await failFunc(Error!);
 
     /// <summary>
     /// Pattern matching for Result 
@@ -74,9 +76,9 @@ public readonly struct Result<T, TE>
     public void Match(Action<T> successAction, Action<TE> failAction)
     {
         if (IsOK)
-            successAction(OkValue!);
+            successAction(Ok!);
         else
-            failAction(EValue!);
+            failAction(Error!);
     }
 
     internal static async Task<TResult> MatchInternalAsync<TResult>(Task<Result<T, TE>> result,
@@ -84,9 +86,9 @@ public readonly struct Result<T, TE>
     {
         var awaitedsResult = await result;
         if (awaitedsResult.IsOK)
-            return successFunc(awaitedsResult.OkValue!);
+            return successFunc(awaitedsResult.Ok!);
         else
-            return failFunc(awaitedsResult.EValue!);
+            return failFunc(awaitedsResult.Error!);
     }
 
     internal static async Task<TResult> MatchInternalAsync<TResult>(Task<Result<T, TE>> result,
@@ -94,9 +96,9 @@ public readonly struct Result<T, TE>
     {
         var awaitedsResult = await result;
         if (awaitedsResult.IsOK)
-            return await successFunc(awaitedsResult.OkValue!);
+            return await successFunc(awaitedsResult.Ok!);
         else
-            return failFunc(awaitedsResult.EValue!);
+            return failFunc(awaitedsResult.Error!);
     }
 
     internal static async Task<TResult> MatchInternalAsync<TResult>(Task<Result<T, TE>> result,
@@ -104,13 +106,17 @@ public readonly struct Result<T, TE>
     {
         var awaitedsResult = await result;
         if (awaitedsResult.IsOK)
-            return await successFunc(awaitedsResult.OkValue!);
+            return await successFunc(awaitedsResult.Ok!);
         else
-            return await failFunc(awaitedsResult.EValue!);
+            return await failFunc(awaitedsResult.Error!);
     }
 
-    T? OkValue { get; }
-    TE? EValue { get; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    T? Ok { get; init; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    TE? Error { get; init; }
 }
 
 public static class ResultExtensions

@@ -24,6 +24,21 @@ string ThrowIfNull(string nix)
 Option<int> GetMaybeInt(string a)
     => 24;
 
+Result<string, Exception> resultToSerialize = "Hello JSON";
+Result<string, Exception> resultToSerialize2 = Error<string, Exception>(new NullReferenceException());
+Result<int, Exception> resultToSerialize3 = 24;
+Result<int, Exception> resultToSerialize4 = Error<int, Exception>(new InvalidDataException());
+
+var serialized = System.Text.Json.JsonSerializer.Serialize(resultToSerialize);
+var serialized2 = System.Text.Json.JsonSerializer.Serialize(resultToSerialize2);
+var serialized3 = System.Text.Json.JsonSerializer.Serialize(resultToSerialize3);
+var serialized4 = System.Text.Json.JsonSerializer.Serialize(resultToSerialize4);
+
+var deserialized1 = System.Text.Json.JsonSerializer.Deserialize<Result<string, Exception>>(serialized);
+var deserialized2 = System.Text.Json.JsonSerializer.Deserialize<Result<string, Exception>>(serialized2);
+var deserialized3 = System.Text.Json.JsonSerializer.Deserialize<Result<int, Exception>>(serialized3);
+var deserialized4 = System.Text.Json.JsonSerializer.Deserialize<Result<int, Exception>>(serialized4);
+
 var res = (from n in teststr
             select getSubstring5(n))
                 .GetOrDefault("Nichts");
