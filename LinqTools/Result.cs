@@ -14,14 +14,14 @@ public readonly struct Result<T, TE>
 {
     internal Result(T value)
     {
-        IsOK = true;
+        IsError = false;
         Ok = value;
         Error = default;
     }
 
     internal Result(TE value)
     {
-        IsOK = false;
+        IsError = true;
         Ok = default;
         Error = value;
     }
@@ -30,7 +30,7 @@ public readonly struct Result<T, TE>
         => Ok<T, TE>(value);
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public bool IsOK { get; init; }
+    public bool IsError { get; init; }
 
     /// <summary>
     /// Pattern matching for Result 
@@ -40,7 +40,7 @@ public readonly struct Result<T, TE>
     /// <param name="failFunc"></param>
     /// <returns></returns>
     public TResult Match<TResult>(Func<T, TResult> successFunc, Func<TE, TResult> failFunc)
-        => IsOK
+        => IsError == false
         ? successFunc(Ok!)
         : failFunc(Error!);
 
@@ -52,7 +52,7 @@ public readonly struct Result<T, TE>
     /// <param name="failFunc"></param>
     /// <returns></returns>
     public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> successFunc, Func<TE, TResult> failFunc)
-        => IsOK
+        => IsError == false
         ? await successFunc(Ok!)
         : failFunc(Error!);
 
@@ -64,7 +64,7 @@ public readonly struct Result<T, TE>
     /// <param name="failFunc"></param>
     /// <returns></returns>
     public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> successFunc, Func<TE, Task<TResult>> failFunc)
-        => IsOK
+        => IsError == false
         ? await successFunc(Ok!)
         : await failFunc(Error!);
 
@@ -75,7 +75,7 @@ public readonly struct Result<T, TE>
     /// <param name="failAction"></param>
     public void Match(Action<T> successAction, Action<TE> failAction)
     {
-        if (IsOK)
+        if (IsError == false)
             successAction(Ok!);
         else
             failAction(Error!);
@@ -85,7 +85,7 @@ public readonly struct Result<T, TE>
         Func<T, TResult> successFunc, Func<TE, TResult> failFunc)
     {
         var awaitedsResult = await result;
-        if (awaitedsResult.IsOK)
+        if (awaitedsResult.IsError == false)
             return successFunc(awaitedsResult.Ok!);
         else
             return failFunc(awaitedsResult.Error!);
@@ -95,7 +95,7 @@ public readonly struct Result<T, TE>
         Func<T, Task<TResult>> successFunc, Func<TE, TResult> failFunc)
     {
         var awaitedsResult = await result;
-        if (awaitedsResult.IsOK)
+        if (awaitedsResult.IsError == false)
             return await successFunc(awaitedsResult.Ok!);
         else
             return failFunc(awaitedsResult.Error!);
@@ -105,7 +105,7 @@ public readonly struct Result<T, TE>
         Func<T, Task<TResult>> successFunc, Func<TE, Task<TResult>> failFunc)
     {
         var awaitedsResult = await result;
-        if (awaitedsResult.IsOK)
+        if (awaitedsResult.IsError == false)
             return await successFunc(awaitedsResult.Ok!);
         else
             return await failFunc(awaitedsResult.Error!);
